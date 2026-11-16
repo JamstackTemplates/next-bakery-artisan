@@ -1,0 +1,642 @@
+/* Acme Bakehouse styles: Tailwind CSS v4 plus this template's customizations.
+   Components use Tailwind utility classes; this file holds what utilities can't:
+   1. colour tokens for light/dark   2. the Tailwind theme built from them
+   3. base element styles           4. shared building blocks (.button, .card, .sticker, ...)
+   5. illustrations and animation   6. stateful pieces styled by data attributes */
+@import 'tailwindcss';
+
+/* `dark:` follows the jamstacks theme toggle (html.dark). Prefer colour tokens instead. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ------------------------------------------------------------------
+   1. Colour tokens. Change the palette here.
+   Light mode is "first bake": flour-cream, parchment and crust brown.
+   Dark mode is "oven glow": scorched brown, ember orange and warm cream.
+   Every colour that changes with the theme is a variable here, so components use
+   utilities like `bg-surface text-ink` and never need `dark:` variants.
+   ------------------------------------------------------------------ */
+:root {
+  --bg: #f6efe2;
+  --bg-band: #efe4d0;
+  --surface: #fcf8f0;
+  --surface-2: #f3eadb;
+  --kraft: #d8b98c;
+  --kraft-edge: #c9a676;
+  --kraft-ink: #2b1d12;
+  --text: #2b1d12;
+  --muted: #6b5644;
+  --line: #e3d4bc;
+  --line-strong: #cdb592;
+  --accent: #8a4b22;
+  --accent-strong: #6b3714;
+  --accent-soft: #f1dcc6;
+  --wheat: #c8902f;
+  --wheat-ink: #8a5e12;
+  --wheat-soft: #f5e4bf;
+  --sage: #4d6a3a;
+  --sage-soft: #e0e8d2;
+  --on-accent: #ffffff;
+  --danger: #a3301f;
+  --success: #3f6a2e;
+  --focus: #a8650f;
+  --elev-1: 0 1px 2px rgba(80, 50, 20, .08), 0 4px 12px rgba(80, 50, 20, .07);
+  --elev-2: 0 2px 4px rgba(80, 50, 20, .06), 0 24px 48px -18px rgba(90, 50, 20, .32);
+  /* Flour speckle over the page; purely decorative. Kept sparse so screenshots stay small. */
+  --speckle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cg fill='%23fffdf8'%3E%3Ccircle cx='18' cy='26' r='1.6'/%3E%3Ccircle cx='96' cy='12' r='1.1'/%3E%3Ccircle cx='160' cy='58' r='1.8'/%3E%3Ccircle cx='214' cy='30' r='1.2'/%3E%3Ccircle cx='54' cy='92' r='1.4'/%3E%3Ccircle cx='130' cy='120' r='1'/%3E%3Ccircle cx='200' cy='150' r='1.7'/%3E%3Ccircle cx='30' cy='170' r='1.1'/%3E%3Ccircle cx='88' cy='210' r='1.5'/%3E%3Ccircle cx='170' cy='222' r='1.2'/%3E%3C/g%3E%3Cg fill='%23a8825a'%3E%3Ccircle cx='72' cy='44' r='.7'/%3E%3Ccircle cx='190' cy='96' r='.6'/%3E%3Ccircle cx='112' cy='178' r='.7'/%3E%3Ccircle cx='228' cy='200' r='.6'/%3E%3C/g%3E%3C/svg%3E");
+  --speckle-opacity: .7;
+  --glow: rgba(255, 238, 205, .9);
+  --glow-2: rgba(200, 144, 47, .10);
+
+  /* Hero bread board */
+  --halo: #fbf3e4;
+  --window: rgba(200, 144, 47, .16);
+  --board: #c08a55;
+  --board-edge: #9a6633;
+  --board-grain: rgba(110, 60, 20, .22);
+  --board-shadow: rgba(90, 55, 25, .22);
+  --crust: #a8622a;
+  --crust-dark: #7a4118;
+  --crust-light: #d0914a;
+  --score: #f3d9a8;
+  --flour: rgba(255, 253, 246, .92);
+  --baguette: #c27a3a;
+  --croissant: #d48a3a;
+  --croissant-dark: #a6632a;
+  --bun: #b8692e;
+  --bun-swirl: #75390f;
+  --icing: #fdf4e3;
+  --wheat-stalk: #c8902f;
+  --wheat-stalk-dark: #9c6c1e;
+  --steam: rgba(130, 95, 60, .38);
+  --oven-brick: #b9744a;
+  --oven-brick-2: #c98458;
+  --oven-mortar: #e9d6bd;
+  --oven-mouth: #3b2416;
+  --oven-fire: #ff9a3c;
+  --oven-fire-2: #ffd27a;
+  --day: 1;
+  --night: 0;
+
+  /* Bake and cake drawings */
+  --art-line: #3b2414;
+  --art-crumb: #f5e0b8;
+  --art-flour: rgba(255, 253, 246, .9);
+  --art-choc: #4a2818;
+  --art-cream: #fdf3df;
+  --art-leaf: #5f7d3a;
+  --art-pastry: #e3ad62;
+  --art-crust: #b0682c;
+  --art-paper: #fbf3e2;
+  --art-shine: rgba(255, 246, 225, .55);
+  --art-shade: rgba(60, 30, 10, .18);
+  --cake-stand: #efe6d6;
+  --cake-stand-shade: #d6c8b0;
+
+  /* Google Maps embed: untouched in light mode */
+  --map-filter: none;
+
+  --footer-bg: #3a2415;
+  --footer-edge: #3a2415;
+
+  --measure: 40rem;
+  --page: 74rem;
+  --gutter: clamp(1rem, 4.5vw, 2.75rem);
+  --space-section: clamp(4rem, 8vw, 7rem);
+  --header-h: 4.5rem;
+
+  /* --------------------------------------------------------------
+     Jamstacks component fallbacks (inherited by hosted components).
+     Published portal themes may override these on the host element.
+     Never style the component's shadow-root internals directly.
+     -------------------------------------------------------------- */
+  --jamstacks-font-family: var(--font-sans);
+  --jamstacks-font-size: 16px;
+  --jamstacks-color-primary: var(--accent);
+  --jamstacks-color-background: var(--surface);
+  --jamstacks-color-text: var(--text);
+  --jamstacks-color-muted: var(--muted);
+  --jamstacks-color-border: var(--line-strong);
+  --jamstacks-color-danger: var(--danger);
+  --jamstacks-color-success: var(--success);
+  --jamstacks-border-radius: var(--radius-ui);
+  --jamstacks-control-height: 48px;
+  --jamstacks-spacing: 14px;
+  /* Component extension supported by the current support-form runtime: fill the page column. */
+  --jamstacks-form-max-width: 100%;
+
+  /* Shared theme toggle (jamstacks package) */
+  --jamstacks-toggle-color: var(--text);
+  --jamstacks-toggle-dark-color: var(--text);
+  --jamstacks-toggle-border: var(--line-strong);
+  --jamstacks-toggle-background: var(--surface);
+  --jamstacks-toggle-dark-background: var(--surface);
+
+  color-scheme: light;
+}
+
+/* Explicit choices override the device; the media fallback also works without JavaScript.
+   Keep these two blocks identical. */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    color-scheme: dark;
+    --bg: #1a120c;
+    --bg-band: #20160f;
+    --surface: #271b12;
+    --surface-2: #2f2117;
+    --kraft: #4a3220;
+    --kraft-edge: #5c3f28;
+    --kraft-ink: #f3e6d3;
+    --text: #f3e6d3;
+    --muted: #c4ad93;
+    --line: #3f2d1f;
+    --line-strong: #5a4130;
+    --accent: #e07a3a;
+    --accent-strong: #f59a5e;
+    --accent-soft: #43261a;
+    --wheat: #e2b35c;
+    --wheat-ink: #ecc172;
+    --wheat-soft: #3a2a15;
+    --sage: #a9c48f;
+    --sage-soft: #263022;
+    --on-accent: #1a0d05;
+    --danger: #ff9e8a;
+    --success: #a9c48f;
+    --focus: #f0b25a;
+    --elev-1: 0 1px 2px rgba(0, 0, 0, .4), 0 4px 12px rgba(0, 0, 0, .25);
+    --elev-2: 0 2px 4px rgba(0, 0, 0, .35), 0 26px 50px -18px rgba(0, 0, 0, .75);
+    --speckle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cg fill='%23a77a52'%3E%3Ccircle cx='18' cy='26' r='1.2'/%3E%3Ccircle cx='96' cy='12' r='.9'/%3E%3Ccircle cx='160' cy='58' r='1.4'/%3E%3Ccircle cx='214' cy='30' r='1'/%3E%3Ccircle cx='54' cy='92' r='1.1'/%3E%3Ccircle cx='130' cy='120' r='.8'/%3E%3Ccircle cx='200' cy='150' r='1.3'/%3E%3Ccircle cx='30' cy='170' r='.9'/%3E%3Ccircle cx='88' cy='210' r='1.2'/%3E%3Ccircle cx='170' cy='222' r='1'/%3E%3C/g%3E%3Cg fill='%23f3e6d3'%3E%3Ccircle cx='72' cy='44' r='.7'/%3E%3Ccircle cx='190' cy='96' r='.6'/%3E%3Ccircle cx='112' cy='178' r='.7'/%3E%3Ccircle cx='228' cy='200' r='.6'/%3E%3C/g%3E%3C/svg%3E");
+    --speckle-opacity: .22;
+    --glow: rgba(224, 122, 58, .22);
+    --glow-2: rgba(224, 122, 58, .05);
+
+    --halo: #2a1c12;
+    --window: transparent;
+    --board: #7a4f2c;
+    --board-edge: #5a361b;
+    --board-grain: rgba(0, 0, 0, .28);
+    --board-shadow: rgba(0, 0, 0, .45);
+    --crust: #9a5523;
+    --crust-dark: #6a3512;
+    --crust-light: #c47a38;
+    --score: #e7c48c;
+    --flour: rgba(255, 244, 226, .78);
+    --baguette: #b06a2e;
+    --croissant: #c77e33;
+    --croissant-dark: #8f5221;
+    --bun: #a95e27;
+    --bun-swirl: #5e2f12;
+    --icing: #f3e3c8;
+    --wheat-stalk: #c99a45;
+    --wheat-stalk-dark: #94692a;
+    --steam: rgba(255, 228, 196, .5);
+    --oven-brick: #4a2a1a;
+    --oven-brick-2: #5b3320;
+    --oven-mortar: #2a160d;
+    --oven-mouth: #1c0c05;
+    --oven-fire: #ff9a3c;
+    --oven-fire-2: #ffd27a;
+    --day: 0;
+    --night: 1;
+
+    --art-line: #120a05;
+    --art-crumb: #ecd2a4;
+    --art-flour: rgba(255, 246, 230, .8);
+    --art-choc: #3e2013;
+    --art-cream: #f3e3c8;
+    --art-leaf: #7f9d55;
+    --art-pastry: #c98a40;
+    --art-crust: #8f5020;
+    --art-paper: #e6d6bb;
+    --art-shine: rgba(255, 236, 205, .35);
+    --art-shade: rgba(0, 0, 0, .25);
+    --cake-stand: #cdbda4;
+    --cake-stand-shade: #a8987f;
+
+    --map-filter: invert(.9) hue-rotate(180deg) sepia(.35) saturate(.75) brightness(.9) contrast(.92);
+    --footer-bg: #110b07;
+    --footer-edge: #110b07;
+
+    /* The hosted form draws white button text, so its primary stays dark enough to read. */
+    --jamstacks-color-primary: #a8521f;
+  }
+}
+
+:root.dark {
+  color-scheme: dark;
+  --bg: #1a120c;
+  --bg-band: #20160f;
+  --surface: #271b12;
+  --surface-2: #2f2117;
+  --kraft: #4a3220;
+  --kraft-edge: #5c3f28;
+  --kraft-ink: #f3e6d3;
+  --text: #f3e6d3;
+  --muted: #c4ad93;
+  --line: #3f2d1f;
+  --line-strong: #5a4130;
+  --accent: #e07a3a;
+  --accent-strong: #f59a5e;
+  --accent-soft: #43261a;
+  --wheat: #e2b35c;
+  --wheat-ink: #ecc172;
+  --wheat-soft: #3a2a15;
+  --sage: #a9c48f;
+  --sage-soft: #263022;
+  --on-accent: #1a0d05;
+  --danger: #ff9e8a;
+  --success: #a9c48f;
+  --focus: #f0b25a;
+  --elev-1: 0 1px 2px rgba(0, 0, 0, .4), 0 4px 12px rgba(0, 0, 0, .25);
+  --elev-2: 0 2px 4px rgba(0, 0, 0, .35), 0 26px 50px -18px rgba(0, 0, 0, .75);
+  --speckle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cg fill='%23a77a52'%3E%3Ccircle cx='18' cy='26' r='1.2'/%3E%3Ccircle cx='96' cy='12' r='.9'/%3E%3Ccircle cx='160' cy='58' r='1.4'/%3E%3Ccircle cx='214' cy='30' r='1'/%3E%3Ccircle cx='54' cy='92' r='1.1'/%3E%3Ccircle cx='130' cy='120' r='.8'/%3E%3Ccircle cx='200' cy='150' r='1.3'/%3E%3Ccircle cx='30' cy='170' r='.9'/%3E%3Ccircle cx='88' cy='210' r='1.2'/%3E%3Ccircle cx='170' cy='222' r='1'/%3E%3C/g%3E%3Cg fill='%23f3e6d3'%3E%3Ccircle cx='72' cy='44' r='.7'/%3E%3Ccircle cx='190' cy='96' r='.6'/%3E%3Ccircle cx='112' cy='178' r='.7'/%3E%3Ccircle cx='228' cy='200' r='.6'/%3E%3C/g%3E%3C/svg%3E");
+  --speckle-opacity: .22;
+  --glow: rgba(224, 122, 58, .22);
+  --glow-2: rgba(224, 122, 58, .05);
+
+  --halo: #2a1c12;
+  --window: transparent;
+  --board: #7a4f2c;
+  --board-edge: #5a361b;
+  --board-grain: rgba(0, 0, 0, .28);
+  --board-shadow: rgba(0, 0, 0, .45);
+  --crust: #9a5523;
+  --crust-dark: #6a3512;
+  --crust-light: #c47a38;
+  --score: #e7c48c;
+  --flour: rgba(255, 244, 226, .78);
+  --baguette: #b06a2e;
+  --croissant: #c77e33;
+  --croissant-dark: #8f5221;
+  --bun: #a95e27;
+  --bun-swirl: #5e2f12;
+  --icing: #f3e3c8;
+  --wheat-stalk: #c99a45;
+  --wheat-stalk-dark: #94692a;
+  --steam: rgba(255, 228, 196, .5);
+  --oven-brick: #4a2a1a;
+  --oven-brick-2: #5b3320;
+  --oven-mortar: #2a160d;
+  --oven-mouth: #1c0c05;
+  --oven-fire: #ff9a3c;
+  --oven-fire-2: #ffd27a;
+  --day: 0;
+  --night: 1;
+
+  --art-line: #120a05;
+  --art-crumb: #ecd2a4;
+  --art-flour: rgba(255, 246, 230, .8);
+  --art-choc: #3e2013;
+  --art-cream: #f3e3c8;
+  --art-leaf: #7f9d55;
+  --art-pastry: #c98a40;
+  --art-crust: #8f5020;
+  --art-paper: #e6d6bb;
+  --art-shine: rgba(255, 236, 205, .35);
+  --art-shade: rgba(0, 0, 0, .25);
+  --cake-stand: #cdbda4;
+  --cake-stand-shade: #a8987f;
+
+  --map-filter: invert(.9) hue-rotate(180deg) sepia(.35) saturate(.75) brightness(.9) contrast(.92);
+  --footer-bg: #110b07;
+  --footer-edge: #110b07;
+
+  /* The hosted form draws white button text, so its primary stays dark enough to read. */
+  --jamstacks-color-primary: #a8521f;
+}
+
+/* ------------------------------------------------------------------
+   2. Tailwind theme. Only this template's palette exists: Tailwind's default colours
+   are switched off so new UI can't drift into a generic look.
+   ------------------------------------------------------------------ */
+@theme {
+  --color-*: initial;
+  --breakpoint-xs: 27.5rem;
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 60rem;
+  --breakpoint-xl: 80rem;
+}
+
+@theme static {
+  --font-display: "Fraunces Variable", "Iowan Old Style", Georgia, serif;
+  --font-sans: "Figtree Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Handwritten: only for small price tags and "just out" labels. */
+  --font-hand: "Caveat Variable", "Bradley Hand", "Segoe Print", cursive;
+  --radius-ui: 10px;
+  --radius-card: 14px;
+  --radius-panel: 22px;
+}
+
+@theme inline {
+  --color-white: #fff;
+  --color-bg: var(--bg);
+  --color-band: var(--bg-band);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-kraft: var(--kraft);
+  --color-kraft-ink: var(--kraft-ink);
+  --color-ink: var(--text);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
+  --color-wheat: var(--wheat);
+  --color-wheat-ink: var(--wheat-ink);
+  --color-wheat-soft: var(--wheat-soft);
+  --color-sage: var(--sage);
+  --color-sage-soft: var(--sage-soft);
+  --color-on-accent: var(--on-accent);
+  --color-footer: var(--footer-bg);
+  /* Footer text sits on the always-dark footer in both modes. */
+  --color-footer-ink: #f3e6d3;
+  --color-footer-muted: #cbb498;
+  --color-footer-soft: #dcc6a8;
+  --color-footer-wheat: #f0bf66;
+  --shadow-card: var(--elev-1);
+  --shadow-lift: var(--elev-2);
+}
+
+/* Layout helpers used across pages. */
+@utility wrap {
+  width: min(100% - 2 * var(--gutter), var(--page));
+  margin-inline: auto;
+}
+@utility section-y {
+  padding-block: var(--space-section);
+}
+/* Fraunces axes: soft rounded terminals, and the "wonky" leaning letters for the odd flourish. */
+@utility font-soft {
+  font-variation-settings: "SOFT" 100, "WONK" 0;
+}
+@utility font-wonk {
+  font-variation-settings: "SOFT" 100, "WONK" 1;
+}
+
+/* ------------------------------------------------------------------
+   3. Base elements
+   ------------------------------------------------------------------ */
+@layer base {
+  html { background: var(--bg); scroll-padding-top: calc(var(--header-h) + .75rem); }
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    isolation: isolate;
+    background:
+      radial-gradient(60rem 36rem at 78% -6%, var(--glow), transparent 62%),
+      radial-gradient(46rem 30rem at 0% 8%, var(--glow-2), transparent 60%),
+      var(--bg);
+    background-repeat: no-repeat;
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+  /* Flour in light mode, crumbs in dark mode. */
+  body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: var(--speckle-opacity);
+    background-image: var(--speckle);
+  }
+  main { flex: 1; outline: none; }
+  h1, h2, h3 { font-family: var(--font-display); font-variation-settings: "SOFT" 50, "WONK" 0; font-weight: 600; line-height: 1.08; letter-spacing: -.015em; text-wrap: balance; }
+  h1 em, h2 em { color: var(--accent); font-style: italic; font-weight: 500; font-variation-settings: "SOFT" 100, "WONK" 1; }
+  p { text-wrap: pretty; }
+  abbr[title] { text-decoration: none; }
+  :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 6px; }
+  ::selection { background: var(--wheat-soft); color: var(--text); }
+  @media (width < 40rem) {
+    :root { --header-h: 4rem; }
+    body { font-size: 1rem; }
+  }
+}
+
+/* ------------------------------------------------------------------
+   4. Shared building blocks. Reuse these instead of restyling each instance.
+   ------------------------------------------------------------------ */
+@layer components {
+  .button {
+    display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+    min-height: 3rem; padding: .7rem 1.35rem;
+    border: 2px solid var(--accent); border-radius: var(--radius-ui);
+    background: var(--accent); color: var(--on-accent);
+    font: inherit; font-weight: 700; letter-spacing: .01em; text-decoration: none; cursor: pointer;
+    box-shadow: inset 0 -3px 0 rgba(0, 0, 0, .18), 0 2px 0 var(--accent-strong);
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .button:hover { transform: translateY(-1px); background: var(--accent-strong); border-color: var(--accent-strong); }
+  .button:active { transform: translateY(1px); box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .18); }
+  .button-ghost { background: var(--surface); color: var(--text); border-color: var(--line-strong); box-shadow: inset 0 -3px 0 var(--surface-2); }
+  .button-ghost:hover { background: var(--surface); border-color: var(--accent); }
+  .button-quiet { min-height: 2.5rem; padding: .4rem 1rem; background: transparent; color: var(--text); border-color: var(--line-strong); box-shadow: none; font-weight: 600; }
+  .button-quiet:hover { transform: none; background: transparent; border-color: var(--accent); }
+
+  .text-link {
+    color: var(--accent); font-weight: 650;
+    text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .22em;
+    text-decoration-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+  .text-link:hover { text-decoration-color: var(--accent); }
+
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: .55rem;
+    font-size: .78rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--wheat-ink);
+  }
+  .eyebrow::before {
+    content: ""; width: 1.1rem; height: 1.1rem; flex: none; background: currentColor;
+    /* A tiny wheat ear. */
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 23V8' stroke='%23000' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3Cpath d='M12 3c2 2 2 4 0 6-2-2-2-4 0-6zM12 8c3 0 5 2 5 4-3 0-5-1-5-4zM12 8c-3 0-5 2-5 4 3 0 5-1 5-4zM12 13c3 0 5 2 5 4-3 0-5-1-5-4zM12 13c-3 0-5 2-5 4 3 0 5-1 5-4z'/%3E%3C/svg%3E") center / contain no-repeat;
+  }
+
+  .chip {
+    display: inline-flex; align-items: center; gap: .4rem;
+    min-height: 2.4rem; padding: .35rem .95rem;
+    border: 1.5px solid var(--line-strong); border-radius: 999px;
+    background: var(--surface); color: var(--text);
+    font: inherit; font-size: .92rem; font-weight: 650; text-decoration: none; white-space: nowrap; cursor: pointer;
+    transition: border-color .15s ease, background .15s ease;
+  }
+  .chip:hover { border-color: var(--accent); }
+  .chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+  .chip[aria-pressed="true"]::before { content: "✓"; }
+
+  /* Stickers: badges on bakes. They settle into place when the page loads. */
+  .sticker {
+    --tilt: -2deg;
+    display: inline-flex; align-items: center;
+    padding: .12rem .6rem; border-radius: 6px;
+    font-size: .72rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+    background: var(--accent-soft); color: var(--accent-strong);
+    border: 1px dashed color-mix(in srgb, currentColor 40%, transparent);
+    transform: rotate(var(--tilt));
+    animation: settle .7s cubic-bezier(.3, 1.5, .5, 1) both;
+  }
+  .sticker:nth-of-type(even) { --tilt: 2deg; animation-delay: .08s; }
+  .sticker-seasonal { background: var(--wheat-soft); color: var(--wheat-ink); }
+  .sticker-weekend { background: var(--sage-soft); color: var(--sage); }
+  .sticker-new { background: var(--wheat); color: #2b1d12; border-color: transparent; }
+  .sticker-soldout { background: var(--text); color: var(--bg); border-color: transparent; }
+
+  /* Baking parchment: a surface card. Combine with padding utilities. */
+  .card {
+    border-radius: var(--radius-card); border: 1px solid var(--line);
+    background: linear-gradient(170deg, color-mix(in srgb, var(--surface) 92%, #fff) 0%, var(--surface) 55%, color-mix(in srgb, var(--surface) 94%, var(--wheat)) 100%);
+  }
+
+  /* Brown paper bag: kraft colour with a serrated top edge. Put shadows on a wrapper (mask clips them). */
+  .kraft {
+    --tooth: 9px;
+    position: relative;
+    padding-top: calc(var(--tooth) + 1rem);
+    background:
+      linear-gradient(90deg, transparent 49.6%, rgba(0, 0, 0, .06) 50%, transparent 50.4%),
+      linear-gradient(180deg, rgba(255, 255, 255, .12), transparent 30%),
+      var(--kraft);
+    color: var(--kraft-ink);
+    border-radius: 0 0 var(--radius-card) var(--radius-card);
+    mask:
+      linear-gradient(#000 0 0) bottom / 100% calc(100% - var(--tooth)) no-repeat,
+      conic-gradient(from 135deg at 50% 0, #000 90deg, #0000 0) top / calc(2 * var(--tooth)) var(--tooth) repeat-x;
+  }
+
+}
+
+/* ------------------------------------------------------------------
+   5. Illustrations and animation (SVG art is coloured by the tokens above)
+   ------------------------------------------------------------------ */
+@layer components {
+  .scene { width: 100%; height: auto; overflow: visible; }
+  .scene__day { opacity: var(--day); }
+  .scene__night { opacity: var(--night); }
+  .scene__steam path { animation: steam 3.6s ease-in-out infinite; }
+  .scene__steam path:nth-child(2) { animation-delay: 1.2s; }
+  .scene__steam path:nth-child(3) { animation-delay: 2.4s; }
+  .scene__flour circle { animation: flour-drift 9s ease-in-out infinite; }
+  .scene__flour circle:nth-child(3n) { animation-duration: 12s; animation-delay: -3s; }
+  .scene__flour circle:nth-child(3n + 1) { animation-duration: 10s; animation-delay: -6s; }
+  .scene__fire { transform-origin: 280px 250px; animation: glow-breathe 4.5s ease-in-out infinite; }
+  .scene__embers circle { animation: ember-rise 5s ease-in infinite; }
+  .scene__embers circle:nth-child(2n) { animation-delay: -2.2s; animation-duration: 6s; }
+
+  /* Soft oven glow behind the hero in dark mode; a pale morning light in light mode. */
+  .hero-glow::before {
+    content: ""; position: absolute; inset: 4% 4% 10%; z-index: -1;
+    border-radius: 50%; filter: blur(50px);
+    background: radial-gradient(circle, color-mix(in srgb, var(--oven-fire) calc(var(--night) * 45%), var(--glow)), transparent 68%);
+    animation: glow-breathe 5s ease-in-out infinite;
+  }
+
+  /* Bake drawings sit on a soft round "board" tinted by the bake's colour (--art-tint). */
+  .bake-art {
+    position: relative; display: inline-grid; place-items: center; flex: none; border-radius: 50%;
+    background: radial-gradient(circle at 50% 62%, color-mix(in srgb, var(--art-tint) 26%, var(--surface)), color-mix(in srgb, var(--art-tint) 9%, var(--surface)) 70%);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--art-tint) 18%, transparent);
+  }
+  .bake-art svg { width: 86%; height: 86%; overflow: visible; }
+  .art-steam path { animation: steam 3s ease-in-out infinite; }
+  .art-steam path + path { animation-delay: 1.3s; }
+
+  /* Handwritten price tag hanging on a string. */
+  .price-tag {
+    --tilt: 4deg;
+    position: relative; display: inline-flex; align-items: center;
+    min-height: 2rem; padding: .05rem .75rem .05rem 1.35rem;
+    font-family: var(--font-hand); font-size: 1.35rem; font-weight: 700; line-height: 1; white-space: nowrap;
+    color: var(--text);
+    background:
+      radial-gradient(circle at .6rem 50%, var(--kraft-edge) .2rem, var(--line-strong) .2rem .27rem, transparent .28rem),
+      var(--surface);
+    clip-path: polygon(.55rem 0, 100% 0, 100% 100%, .55rem 100%, 0 50%);
+    transform: rotate(var(--tilt)); transform-origin: 0 50%;
+    animation: settle .8s cubic-bezier(.3, 1.5, .5, 1) both;
+  }
+  .price-tag__string { position: absolute; pointer-events: none; color: var(--wheat-stalk-dark); }
+
+  /* "Baked today" rubber stamp. */
+  .stamp { color: var(--accent); opacity: .88; transform: rotate(-12deg); animation: stamp .6s cubic-bezier(.3, 1.4, .5, 1) .2s both; }
+  .stamp text { font-family: var(--font-sans); font-weight: 800; letter-spacing: .2em; text-transform: uppercase; }
+
+  /* Wheat-stalk section divider. */
+  .wheat-divider { display: flex; align-items: center; gap: 1rem; color: var(--wheat); }
+  .wheat-divider::before, .wheat-divider::after { content: ""; flex: 1; height: 0; border-top: 1.5px dashed var(--line-strong); }
+
+  /* Google Maps embed; --map-filter warms it into a night map in dark mode. */
+  .map { position: relative; overflow: hidden; min-height: 20rem; border-radius: var(--radius-panel); border: 1px solid var(--line-strong); background: var(--surface-2); box-shadow: var(--elev-1); }
+  .map iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; filter: var(--map-filter); }
+
+  @keyframes steam { 0% { opacity: 0; transform: translateY(8px); } 40% { opacity: 1; } 100% { opacity: 0; transform: translateY(-14px); } }
+  @keyframes flour-drift { 0%, 100% { transform: translate(0, 0); opacity: .9; } 50% { transform: translate(6px, 14px); opacity: .35; } }
+  @keyframes glow-breathe { 0%, 100% { opacity: .82; } 50% { opacity: 1; } }
+  @keyframes ember-rise { 0% { transform: translateY(0); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateY(-60px); opacity: 0; } }
+  @keyframes settle { 0% { opacity: 0; transform: rotate(calc(var(--tilt) + 10deg)) scale(1.18); } 100% { opacity: 1; transform: rotate(var(--tilt)) scale(1); } }
+  @keyframes stamp { 0% { opacity: 0; transform: rotate(-4deg) scale(1.4); } 100% { opacity: .88; transform: rotate(-12deg) scale(1); } }
+  @keyframes open-pulse { 50% { box-shadow: 0 0 0 7px color-mix(in srgb, #4f9a3a 0%, transparent); } }
+  @keyframes just-out { 50% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 0%, transparent); } }
+}
+
+/* ------------------------------------------------------------------
+   6. Stateful pieces styled by attributes the components set
+   ------------------------------------------------------------------ */
+@layer components {
+  .open-badge__dot { width: .6rem; height: .6rem; border-radius: 50%; background: var(--wheat); }
+  [data-open="true"] > .open-badge__dot { background: #4f9a3a; box-shadow: 0 0 0 4px color-mix(in srgb, #4f9a3a 25%, transparent); animation: open-pulse 2.4s ease-in-out infinite; }
+  [data-open="false"] > .open-badge__dot { background: var(--muted); }
+
+  /* Oven board batches (components/oven-board.tsx). data-state is set only in the browser. */
+  .batch { position: relative; }
+  .batch__time { font-variant-numeric: tabular-nums; }
+  .batch[data-state="out"] .batch__time { color: var(--muted); }
+  .batch[data-state="just-out"] .batch__dot { background: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 30%, transparent); animation: just-out 2s ease-in-out infinite; }
+  .batch[data-state="next"] .batch__dot { background: var(--wheat); }
+  .batch[data-state="out"] .batch__dot { background: var(--line-strong); }
+  .batch[data-state="next"] > .batch__card { border-color: var(--wheat); box-shadow: 0 0 0 3px var(--wheat-soft); }
+  .batch[data-state="just-out"] > .batch__card { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .batch-label { font-family: var(--font-hand); font-size: 1.3rem; font-weight: 700; line-height: 1; }
+
+  .bake-item:target { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+  .bake-item[data-sold-out="true"] .bake-art { filter: grayscale(.85); opacity: .6; }
+  .cake-card:target { outline: 3px solid var(--accent); outline-offset: 4px; }
+
+  .faq summary { list-style: none; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: "+"; flex: none; display: grid; place-items: center; width: 1.8rem; height: 1.8rem; border-radius: 50%; background: var(--wheat-soft); color: var(--wheat-ink); font-size: 1.2rem; font-weight: 700; transition: transform .2s ease; }
+  .faq[open] summary::after { transform: rotate(45deg); }
+
+  /* Hosted Jamstacks form host (components/jamstacks-support-form.tsx). */
+  .enquiry { position: relative; padding: clamp(1rem, 3vw, 2rem); border-radius: var(--radius-panel); background: var(--surface); border: 1px solid var(--line-strong); box-shadow: var(--elev-1); }
+  .enquiry__host { display: block; }
+  .enquiry[data-state="loading"], .enquiry[data-state="loaded"] { min-height: 34rem; border-style: dashed; box-shadow: none; }
+  .enquiry__status { padding: 1.25rem 0 0; color: var(--muted); font-size: .9875rem; }
+  .enquiry__status:empty { display: none; }
+  .enquiry[data-state="error"] .enquiry__status,
+  .enquiry[data-state="slow"] .enquiry__status { padding: 1.1rem 1.4rem; border-radius: var(--radius-ui); border-left: 4px solid var(--accent); background: var(--surface-2); color: var(--text); }
+  @media (width < 40rem) { .enquiry[data-state="loading"], .enquiry[data-state="loaded"] { min-height: 30rem; } }
+
+  .copy-status:empty { display: none; }
+  .scrollbar-none { scrollbar-width: none; }
+  .scrollbar-none::-webkit-scrollbar { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+}
+
+@media print {
+  body { background: #fff; color: #000; }
+  body::before { display: none; }
+  .site-header { position: static; backdrop-filter: none; }
+  .bake-item, .cake-card { break-inside: avoid; border-color: #ccc; }
+  .site-footer { background: #fff; color: #000; }
+  .kraft { mask: none; }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "Artisan bakery",
+  "description": "A warm, flour-dusted theme for artisan bakeries: daily breads and pastries with out-of-the-oven times, sold-out flags, a celebration cakes gallery, opening hours, location and a Jamstacks contact component for custom cake and pre-order enquiries.",
+  "tech": "next",
+  "type": "bakery",
+  "style": "artisan",
+  "internal": false,
+  "components": [
+    "support-form"
+  ],
+  "configFile": "site.config.json",
+  "screenshots": {
+    "light": "jamstacks/home-light.jpg",
+    "dark": "jamstacks/home-dark.jpg",
+    "theme": {
+      "strategy": "media"
+    }
+  }
+}

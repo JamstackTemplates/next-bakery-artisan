@@ -11,7 +11,7 @@ const navigation = [
 
 export function SiteHeader() {
   return (
-    <header className="site-header sticky top-0 z-50 border-b border-line bg-bg/85 backdrop-blur-md backdrop-saturate-150">
+    <header className="site-header scallop-bottom sticky top-0 z-50 bg-bg/85 [--scallop-fill:color-mix(in_oklab,var(--bg)_85%,transparent)] [--scallop-line:var(--line)] [--scallop-r:10px] backdrop-blur-md backdrop-saturate-150">
       <div className="wrap flex min-h-(--header-h) items-center justify-between gap-3">
         <SiteLink href="/" className="inline-flex min-w-0 items-center gap-2.5 no-underline">
           <Logo className="flex-none max-sm:size-8" />

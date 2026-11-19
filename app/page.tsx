@@ -3,7 +3,7 @@ import { BakeArt } from '../components/bake-art';
 import { CakeArt } from '../components/cake-art';
 import { BakedTodayStamp, PriceTag, WheatDivider } from '../components/doodles';
 import { GoogleMap } from '../components/google-map';
-import { HeroScene } from '../components/hero-scene';
+import { HeroImage } from '../components/hero-image';
 import { Icon } from '../components/icons';
 import { OpenBadge } from '../components/open-badge';
 import { OvenBoard } from '../components/oven-board';
@@ -50,7 +50,7 @@ export default function HomePage() {
             </p>
           </div>
           <div className="hero-glow relative mx-auto w-full max-w-xl lg:max-w-none print:hidden">
-            <HeroScene />
+            <HeroImage />
           </div>
         </div>
       </section>
@@ -124,7 +124,7 @@ export default function HomePage() {
         </ul>
       </section>
 
-      <section className="section-y border-y border-line bg-band" aria-labelledby="story-title">
+      <section className="section-y scallop-top scallop-bottom relative bg-band [--scallop-fill:var(--bg-band)] [--scallop-line:var(--line)]" aria-labelledby="story-title">
         <div className="wrap grid items-center gap-[clamp(2rem,5vw,4.5rem)] lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
           <div>
             <p className="eyebrow">The bakery</p>

@@ -6,16 +6,11 @@ import { TimeZoneNote } from './time-zone-note';
 const heading = 'mb-3 flex font-sans items-center gap-2 text-[.78rem] font-bold tracking-[.16em] text-footer-wheat uppercase';
 const footerLink = 'text-footer-ink font-semibold underline decoration-footer-wheat/50 underline-offset-[.2em] hover:text-footer-wheat hover:decoration-footer-wheat';
 
-/** Scalloped top edge, like the rim of a bread tin or a scored crust. */
-const scallops = Array.from({ length: 30 }, (_, index) => `a20 20 0 0 1 40 0`).join('');
-
 export function SiteFooter() {
   const year = new Date().getFullYear();
+  // Scalloped top edge, like the rim of a bread tin: the same edge as the header and the story band.
   return (
-    <footer className="site-footer relative mt-16 bg-footer text-footer-ink">
-      <svg className="absolute inset-x-0 bottom-full h-5 w-full fill-footer print:hidden" viewBox="0 0 1200 20" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-        <path d={`M0 20V20${scallops}V20Z`} />
-      </svg>
+    <footer className="site-footer scallop-top relative mt-16 bg-footer text-footer-ink [--scallop-fill:var(--footer-bg)] [--scallop-r:18px]">
       <div className="wrap grid gap-x-12 gap-y-8 pt-12 pb-8 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr]">
         <div className="sm:col-span-2 lg:col-span-1">
           <p className="font-display font-wonk text-[2rem] leading-tight font-semibold text-footer-ink">{bakery.name}</p>

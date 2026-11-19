@@ -1,4 +1,4 @@
-/* Acme Bakehouse styles: Tailwind CSS v4 plus this template's customizations.
+/* Maison Fournil styles: Tailwind CSS v4 plus this template's customizations.
    Components use Tailwind utility classes; this file holds what utilities can't:
    1. colour tokens for light/dark   2. the Tailwind theme built from them
    3. base element styles           4. shared building blocks (.button, .card, .sticker, ...)
@@ -366,6 +366,25 @@
 @utility section-y {
   padding-block: var(--space-section);
 }
+/* Scalloped edges, like the rim of a bread tin: a row of half-circles above (scallop-top) or below
+   (scallop-bottom) a positioned element. Set --scallop-fill to the element's background, and
+   --scallop-line for an outline that continues the element's border. */
+@utility scallop-top {
+  &::before {
+    --_r: var(--scallop-r, 14px); --_fill: var(--scallop-fill, var(--bg)); --_ink: var(--scallop-line, var(--_fill));
+    content: ""; position: absolute; inset-inline: 0; bottom: calc(100% - 1px); height: calc(var(--_r) + 1px); pointer-events: none;
+    background: radial-gradient(circle var(--_r) at 50% 100%, var(--_fill) calc(var(--_r) - 1.75px), var(--_ink) calc(var(--_r) - 1.25px) calc(var(--_r) - .5px), transparent var(--_r))
+      50% 0 / calc(var(--_r) * 2) 100% repeat-x;
+  }
+}
+@utility scallop-bottom {
+  &::after {
+    --_r: var(--scallop-r, 14px); --_fill: var(--scallop-fill, var(--bg)); --_ink: var(--scallop-line, var(--_fill));
+    content: ""; position: absolute; inset-inline: 0; top: calc(100% - 1px); height: calc(var(--_r) + 1px); pointer-events: none;
+    background: radial-gradient(circle var(--_r) at 50% 0, var(--_fill) calc(var(--_r) - 1.75px), var(--_ink) calc(var(--_r) - 1.25px) calc(var(--_r) - .5px), transparent var(--_r))
+      50% 0 / calc(var(--_r) * 2) 100% repeat-x;
+  }
+}
 /* Fraunces axes: soft rounded terminals, and the "wonky" leaning letters for the odd flourish. */
 @utility font-soft {
   font-variation-settings: "SOFT" 100, "WONK" 0;
@@ -515,18 +534,16 @@
    5. Illustrations and animation (SVG art is coloured by the tokens above)
    ------------------------------------------------------------------ */
 @layer components {
-  .scene { width: 100%; height: auto; overflow: visible; }
-  .scene__day { opacity: var(--day); }
-  .scene__night { opacity: var(--night); }
-  .scene__steam path { animation: steam 3.6s ease-in-out infinite; }
-  .scene__steam path:nth-child(2) { animation-delay: 1.2s; }
-  .scene__steam path:nth-child(3) { animation-delay: 2.4s; }
-  .scene__flour circle { animation: flour-drift 9s ease-in-out infinite; }
-  .scene__flour circle:nth-child(3n) { animation-duration: 12s; animation-delay: -3s; }
-  .scene__flour circle:nth-child(3n + 1) { animation-duration: 10s; animation-delay: -6s; }
-  .scene__fire { transform-origin: 280px 250px; animation: glow-breathe 4.5s ease-in-out infinite; }
-  .scene__embers circle { animation: ember-rise 5s ease-in infinite; }
-  .scene__embers circle:nth-child(2n) { animation-delay: -2.2s; animation-duration: 6s; }
+  /* Hero photo: the theme's image, its edges feathered into the page background. */
+  .hero-art {
+    background: var(--hero-light) center / cover no-repeat;
+    mask-image: linear-gradient(to right, transparent, #000 9% 91%, transparent), linear-gradient(to bottom, transparent, #000 9% 91%, transparent);
+    mask-composite: intersect;
+  }
+  :root.dark .hero-art { background-image: var(--hero-dark); }
+  @media (prefers-color-scheme: dark) {
+    :root:not(.light) .hero-art { background-image: var(--hero-dark); }
+  }
 
   /* Soft oven glow behind the hero in dark mode; a pale morning light in light mode. */
   .hero-glow::before {
@@ -575,9 +592,7 @@
   .map iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; filter: var(--map-filter); }
 
   @keyframes steam { 0% { opacity: 0; transform: translateY(8px); } 40% { opacity: 1; } 100% { opacity: 0; transform: translateY(-14px); } }
-  @keyframes flour-drift { 0%, 100% { transform: translate(0, 0); opacity: .9; } 50% { transform: translate(6px, 14px); opacity: .35; } }
   @keyframes glow-breathe { 0%, 100% { opacity: .82; } 50% { opacity: 1; } }
-  @keyframes ember-rise { 0% { transform: translateY(0); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateY(-60px); opacity: 0; } }
   @keyframes settle { 0% { opacity: 0; transform: rotate(calc(var(--tilt) + 10deg)) scale(1.18); } 100% { opacity: 1; transform: rotate(var(--tilt)) scale(1); } }
   @keyframes stamp { 0% { opacity: 0; transform: rotate(-4deg) scale(1.4); } 100% { opacity: .88; transform: rotate(-12deg) scale(1); } }
   @keyframes open-pulse { 50% { box-shadow: 0 0 0 7px color-mix(in srgb, #4f9a3a 0%, transparent); } }
@@ -636,6 +651,7 @@
   body { background: #fff; color: #000; }
   body::before { display: none; }
   .site-header { position: static; backdrop-filter: none; }
+  .scallop-top::before, .scallop-bottom::after { display: none; }
   .bake-item, .cake-card { break-inside: avoid; border-color: #ccc; }
   .site-footer { background: #fff; color: #000; }
   .kraft { mask: none; }

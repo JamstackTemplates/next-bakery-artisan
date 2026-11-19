@@ -1,16 +1,16 @@
-# Acme Bakehouse (Next.js)
+# Maison Fournil (Next.js)
 
 A warm, flour-dusted theme for artisan bakeries: daily breads and pastries with out-of-the-oven times, sold-out flags, a celebration cakes gallery, opening hours, location and a [Jamstacks](https://jamstacks.net) contact component for custom cake and pre-order enquiries.
 
 It exports to plain static files, deploys to GitHub Pages (custom domain or `/repository/` path) and works with no backend. Light mode is a "first bake" of flour-cream, parchment and crust brown; dark mode is an "oven glow" of scorched brown and ember orange. Both follow the visitor's device unless they pick one with the header toggle.
 
-**Acme Bakehouse**, its bakes, cakes, prices and contact details are fictitious placeholders. The sample address is a public landmark, Union Square in San Francisco, so the map has something real to show. Replace all of them with your own.
+**Maison Fournil**, its bakes, cakes, prices and contact details are fictitious placeholders. The sample address is a public landmark, Union Square in San Francisco, so the map has something real to show. Replace all of them with your own.
 
 ## Pages
 
 | Route | What's there |
 | --- | --- |
-| `/` | Bread-board hero with a live "open now" badge, then **Find us**: address, directions, opening hours and a Google map. Below that: the **Out of the oven** board (today's batches, "Just out", "Next batch at…"), favourites, the bakery's story, a celebration cakes invitation and FAQs |
+| `/` | Bread-board hero photo with a live "open now" badge, then **Find us**: address, directions, opening hours and a Google map. Below that: the **Out of the oven** board (today's batches, "Just out", "Next batch at…"), favourites, the bakery's story, a celebration cakes invitation and FAQs |
 | `/bakes/` | Every bake by section with prices, drawings, dietary tags, stickers, oven times, "Saturdays only" and "Sold out today" labels, section shortcuts and dietary filters, plus allergen notes |
 | `/cakes/` | Celebration cakes as illustrated cards (flavours, sizes with servings and prices, minimum notice), then "How custom cakes work" |
 | `/contact/` | "Custom cakes, pre-orders & enquiries": email and phone (always available) plus the hosted enquiry form when connected |
@@ -113,7 +113,7 @@ Text is rendered as plain text, never HTML. Don't present invented reviews or aw
 
 The header uses `DarkModeToggle` from the published `jamstacks` React package. The root layout supplies `ThemeProvider` and the early `ThemeScript`, so a saved preference applies before the first paint and stays consistent across navigation and tabs.
 
-The hero bread board, bake drawings, cakes, stamps, wheat dividers and price tags are inline SVG/CSS coloured by tokens in `app/tailwind.input.css`. The same hero sits in soft morning window light in light mode and in front of a glowing wood-fired oven in dark mode; there are no image files to swap. Gentle animations (rising steam, drifting flour, the breathing oven glow and stickers settling on load) stop for visitors who prefer reduced motion.
+The hero is a pair of photos: `public/hero-light.webp` (morning light) and `public/hero-dark.webp` (in front of a glowing wood-fired oven). The site shows the one that matches the visitor's theme, downloads only that one, and feathers its edges into the page. To use your own, replace both files with square images whose edges fade to the page colours (`#F6EFE2` light, `#1A120C` dark). The bake drawings, cakes, stamps, wheat dividers and price tags are inline SVG/CSS coloured by tokens in `app/tailwind.input.css`. Gentle animations (rising steam, the breathing oven glow and stickers settling on load) stop for visitors who prefer reduced motion.
 
 Styling uses [Tailwind CSS v4](https://tailwindcss.com). Components use utility classes such as `bg-surface text-ink`, built from the template's own colour tokens; Tailwind's default palette is switched off so the look stays consistent. To change a colour, edit its variable in `app/tailwind.input.css` (light `:root` and both dark blocks, which must stay identical). To add one, such as a custom accent, add a variable there and map it in `@theme inline` (`--color-highlight: var(--highlight)` gives `bg-highlight`, `text-highlight` and so on).
 
@@ -129,7 +129,7 @@ The footer ends with "with ❤️ [jamstacks.net](https://jamstacks.net)". It's 
 
 ```json
 {
-  "name": "Acme Bakehouse",
+  "name": "Maison Fournil",
   "description": "Sourdough, pastries and celebration cakes, baked by hand from first light. Today's bakes, oven times, opening hours and how to find us.",
   "domain": "",
   "timeZone": "America/Los_Angeles",
@@ -217,7 +217,7 @@ This website uses Next.js's default port 3000. Trust the local development certi
 
 ```
 app/                  routes, metadata, sitemap/robots, global styles and tokens
-components/           header, footer, hero scene, oven board, bake list and drawings, cake drawings,
+components/           header, footer, hero image, oven board, bake list and drawings, cake drawings,
                       doodles (stamp, price tag, divider), open badge, Jamstacks host/loader
 content/              bakery.ts, bakes.ts and cakes.ts — your content
 lib/config.mjs        build-time public config resolution and validation
@@ -239,7 +239,7 @@ jamstacks/            optional template publishing metadata and gallery captures
 
 ## Before publishing your website
 
-- Replace Acme Bakehouse, the address (and its `note`), directions, email, phone, bakes, oven times, cakes, prices, FAQs and social links with your own details.
+- Replace Maison Fournil, the address (and its `note`), directions, email, phone, bakes, oven times, cakes, prices, FAQs and social links with your own details.
 - Set your real opening hours and `timeZone` in `site.config.json`, and check the "open now" badge and oven board on the home page.
 - Check every allergen tag and the allergy notes with your kitchen.
 - Update the site title/description, icon and social preview image. Set the correct public domain or Pages URL for canonical links.

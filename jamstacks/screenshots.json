@@ -8,15 +8,15 @@
   "captures": [
     {
       "mode": "light",
-      "sha256": "f8a578377e6c18115778cc5bba54e489405c5503345e0b8082201fbb6269ab24",
+      "sha256": "24047a0a30b9c75e985052e0f96e3763894f5d2c4aed1ebdc6ba078210806cd0",
       "file": "jamstacks/home-light.jpg",
-      "bytes": 121091
+      "bytes": 138573
     },
     {
       "mode": "dark",
-      "sha256": "bdf47cce400c6f788b99482d9846085f68977e4206df96e5a23a1492b98c21d9",
+      "sha256": "cc4f628bc99cef178f0884e3f8f82b568389f60766b9391c8326db15835d84d2",
       "file": "jamstacks/home-dark.jpg",
-      "bytes": 121093
+      "bytes": 135329
     }
   ]
 }

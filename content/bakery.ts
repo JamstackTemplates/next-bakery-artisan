@@ -75,7 +75,7 @@ export interface Bakery {
 }
 
 export const bakery: Bakery = {
-  name: 'Acme Bakehouse',
+  name: 'Maison Fournil',
   tagline: 'Sourdough, viennoiserie & celebration cakes',
   introduction:
     'A neighbourhood bakery with a wood-fired oven and a long memory. Bread, pastries and cakes made by hand from first light, in small batches, until they’re gone.',
